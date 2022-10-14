@@ -5,15 +5,15 @@ services:
     volumes:
     - ./telegraf/etc/telegraf.conf:/etc/telegraf/telegraf.conf:ro
     depends_on:
-      # - influxdb
-      # - jenkins
-      # - gitlab
+      - influxdb
+      - jenkins
+      - gitlab
       - sonarqube
     links:
       - sonarqube
-      # - jenkins
-      # - influxdb
-      # - gitlab
+      - jenkins
+      - influxdb
+      - gitlab
     ports:
     - '127.0.0.1:8125:8125/udp'
 
@@ -26,47 +26,47 @@ services:
       - ./:/imports
       - influxdb_data:/var/lib/influxdb
 
-  # grafana:
-  #   image: grafana/grafana:8.0.2
-  #   depends_on:
-  #     - influxdb
-  #   env_file: configuration.env
-  #   links:
-  #     - influxdb
-  #   ports:
-  #     - '127.0.0.1:3000:3000'
-  #   volumes:
-  #     - grafana_data:/var/lib/grafana
-  #     - ./grafana/provisioning/:/etc/grafana/provisioning/
-  #     - ./grafana/dashboards/:/var/lib/grafana/dashboards/
+  grafana:
+    image: grafana/grafana:8.0.2
+    depends_on:
+      - influxdb
+    env_file: configuration.env
+    links:
+      - influxdb
+    ports:
+      - '127.0.0.1:3000:3000'
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+      - ./grafana/dashboards/:/var/lib/grafana/dashboards/
 
-  # jenkins:
-  #   image: jenkins/jenkins:lts-jdk11
-  #   ports: 
-  #     - '127.0.0.1:8080:8080'
+  jenkins:
+    image: jenkins/jenkins:lts-jdk11
+    ports: 
+      - '127.0.0.1:8080:8080'
 
   sonarqube:
     image: sonarqube:lts
     ports:
       - 127.0.0.1:9000:9000
 
-  # gitlab:
-  #   image: 'gitlab/gitlab-ee:latest'
-  #   restart: always
-  #   hostname: 'gitlab.app.com'
-  #   environment:
-  #     GITLAB_OMNIBUS_CONFIG: |
-  #       external_url 'http://gitlab.app.com:8929'
-  #       gitlab_rails['initial_root_password'] = 'adminadmin'
-  #       gitlab_rails['gitlab_shell_ssh_port'] = 2224
-  #   ports:
-  #     - '127.0.0.1:8929:8929'
-  #     - '2224:22'
-  #   volumes:
-  #     - '$GITLAB_HOME/config:/etc/gitlab'
-  #     - '$GITLAB_HOME/logs:/var/log/gitlab'
-  #     - '$GITLAB_HOME/data:/var/opt/gitlab'
-  #   shm_size: '256m'
+  gitlab:
+    image: 'gitlab/gitlab-ee:latest'
+    restart: always
+    hostname: 'gitlab.app.com'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://gitlab.app.com:8929'
+        gitlab_rails['initial_root_password'] = 'adminadmin'
+        gitlab_rails['gitlab_shell_ssh_port'] = 2224
+    ports:
+      - '127.0.0.1:8929:8929'
+      - '2224:22'
+    volumes:
+      - '$GITLAB_HOME/config:/etc/gitlab'
+      - '$GITLAB_HOME/logs:/var/log/gitlab'
+      - '$GITLAB_HOME/data:/var/opt/gitlab'
+    shm_size: '256m'
 
 
 volumes:
