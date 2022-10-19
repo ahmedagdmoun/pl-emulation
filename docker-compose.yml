@@ -53,7 +53,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
   sonarqube:
-    image: sonarqube:lts
+    image: sonarqube:7.9.2-community
     ports:
       - 127.0.0.1:9000:9000
 
