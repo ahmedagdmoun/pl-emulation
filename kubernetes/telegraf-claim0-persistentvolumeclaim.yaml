@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  creationTimestamp: null
-  labels:
-    io.kompose.service: telegraf-claim0
   name: telegraf-claim0
+  labels:
+    usage: monitoring
+  namespace: monitoring
 spec:
   accessModes:
     - ReadOnlyMany
