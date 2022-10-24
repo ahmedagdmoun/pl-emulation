@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  creationTimestamp: null
-  labels:
-    io.kompose.service: influxdb-data
   name: influxdb-data
+  labels:
+    usage: monitoring
+  namespace: monitoring
 spec:
   accessModes:
     - ReadWriteOnce

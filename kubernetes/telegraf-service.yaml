@@ -1,3 +1,4 @@
+# https://www.influxdata.com/blog/monitoring-kubernetes-architecture/
 apiVersion: v1
 kind: Service
 metadata:
