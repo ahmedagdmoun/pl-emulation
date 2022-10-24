@@ -75,7 +75,6 @@ services:
       - '$GITLAB_HOME/data:/var/opt/gitlab'
     shm_size: '256m'
 
-
 volumes:
   grafana_data: {}
   influxdb_data: {}
