@@ -8,7 +8,7 @@ data:
   INFLUXDB_DB: influx
 kind: ConfigMap
 metadata:
-  creationTimestamp: null
-  labels:
-    io.kompose.service: grafana-configuration-env
   name: configuration-env
+  labels:
+    usage: monitoring
+  namespace: monitoring

@@ -1,28 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose.exe convert
-    kompose.version: 1.26.0 (40646f47)
-  creationTimestamp: null
-  labels:
-    io.kompose.service: grafana
   name: grafana
+  namespace: monitoring
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: grafana
+      app: grafana
   strategy:
     type: Recreate
   template:
     metadata:
-      annotations:
-        kompose.cmd: kompose.exe convert
-        kompose.version: 1.26.0 (40646f47)
-      creationTimestamp: null
+      name: grafana
       labels:
-        io.kompose.service: grafana
+        app: grafana
     spec:
       containers:
         - env:
@@ -56,18 +48,22 @@ spec:
                 configMapKeyRef:
                   key: INFLUXDB_DB
                   name: configuration-env
-          image: grafana/grafana:8.0.2
+          image: grafana/grafana:latest
           name: grafana
           ports:
-            - containerPort: 3000
+            - name: grafana
+              containerPort: 3000
           resources: {}
           volumeMounts:
             - mountPath: /var/lib/grafana
               name: grafana-data
-            - mountPath: /etc/grafana/provisioning/
+            - mountPath: /etc/grafana/provisioning
               name: grafana-claim1
             - mountPath: /var/lib/grafana/dashboards/
               name: grafana-claim2
+            - mountPath: /etc/grafana/provisioning/datasources
+              name: grafana-datasources
+              readOnly: false
       restartPolicy: Always
       volumes:
         - name: grafana-data
@@ -79,4 +75,8 @@ spec:
         - name: grafana-claim2
           persistentVolumeClaim:
             claimName: grafana-claim2
+        - name: grafana-datasources
+          configMap:
+              defaultMode: 420
+              name: grafana-datasources
 status: {}
