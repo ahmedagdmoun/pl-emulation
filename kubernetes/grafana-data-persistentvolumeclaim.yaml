@@ -6,7 +6,6 @@ metadata:
     usage: monitoring
   namespace: monitoring
 spec:
-  storageClassName: manual
   accessModes:
     - ReadWriteOnce
   resources:

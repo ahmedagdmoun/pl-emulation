@@ -1,4 +1,5 @@
 # https://www.influxdata.com/blog/monitoring-kubernetes-architecture/
+# https://www.gojek.io/blog/diy-set-up-telegraf-influxdb-grafana-on-kubernetes
 apiVersion: v1
 kind: Service
 metadata:
