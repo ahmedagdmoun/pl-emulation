@@ -12,7 +12,6 @@ spec:
     type: Recreate
   template:
     metadata:
-      name: grafana
       labels:
         app: telegraf
     spec:
@@ -24,16 +23,19 @@ spec:
               protocol: UDP
           resources: {}
           volumeMounts:
-            - mountPath: /etc/telegraf/telegraf.conf
-              name: telegraf-claim0
+            - name: telegraf-config-volume
+              mountPath: /etc/telegraf/telegraf.conf
               subPath: telegraf.conf
               readOnly: true
+            # - name: telegraf-claim0
+            #   mountPath: /etc/telegraf
       restartPolicy: Always
       volumes:
-        - name: telegraf-claim0
-          persistentVolumeClaim:
-            claimName: telegraf-claim0
-            readOnly: true
+        - name: telegraf-config-volume
           configMap:
             name: telegraf-config
+        # - name: telegraf-claim0
+        #   persistentVolumeClaim:
+        #     claimName: telegraf-claim0
+        #     readOnly: true
 status: {}

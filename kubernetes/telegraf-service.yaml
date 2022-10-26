@@ -12,6 +12,6 @@ spec:
       protocol: UDP
       targetPort: 8125
   selector:
-    io.kompose.service: telegraf
+    app: telegraf
 status:
   loadBalancer: {}

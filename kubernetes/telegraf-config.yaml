@@ -1,3 +1,4 @@
+#https://www.influxdata.com/blog/monitoring-kubernetes-architecture/
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -5,10 +6,11 @@ metadata:
 data:
   telegraf.conf: |+
     [[outputs.influxdb]]
-      urls = ["$INFLUXDB_URL"]
-      database = "$INFLUXDB_DB"
-      username = "$INFLUXDB_USER"
-      password = "$INFLUXDB_USER_PASSWORD"
+      urls = ["http://influxdb:8086"]
+      database = "influx"
+      timeout = "5s"
+      username = "admin"
+      password = "admin"
     # Statsd Server
     [[inputs.statsd]]
       max_tcp_connections = 250
@@ -23,3 +25,20 @@ data:
       percentile_limit = 1000
       parse_data_dog_tags = true 
       read_buffer_size = 65535
+    [[inputs.cpu]]
+      percpu = true
+      totalcpu = true
+      collect_cpu_time = false
+      report_active = false
+    [[inputs.disk]]
+      ignore_fs = ["tmpfs", "devtmpfs", "devfs"]
+    [[inputs.diskio]]
+    [[inputs.kernel]]
+    [[inputs.mem]]
+    [[inputs.processes]]
+    [[inputs.swap]]
+    [[inputs.system]]
+    [[inputs.prometheus]]
+      urls = ["http://localhost:9090/metrics"]
+    [[inputs.kubernetes]]
+      url = "http://1.1.1.1:10255"
