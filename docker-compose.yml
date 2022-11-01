@@ -8,6 +8,7 @@ services:
       - influxdb
       - jenkins
       - sonarqube
+      - gitlab
     links:
       - sonarqube
       - jenkins
@@ -51,10 +52,27 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
   sonarqube:
-    image: sonarqube:lts
+    image: sonarqube:7.9.2-community
     ports:
       - 127.0.0.1:9000:9000
 
+  gitlab:
+    image: 'gitlab/gitlab-ee:latest'
+    restart: always
+    hostname: 'gitlab.app.com'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://gitlab.app.com:8929'
+        gitlab_rails['initial_root_password'] = 'adminadmin'
+        gitlab_rails['gitlab_shell_ssh_port'] = 2224
+    ports:
+      - '127.0.0.1:8929:8929'
+      - '2224:22'
+    volumes:
+      - '$GITLAB_HOME/config:/etc/gitlab'
+      - '$GITLAB_HOME/logs:/var/log/gitlab'
+      - '$GITLAB_HOME/data:/var/opt/gitlab'
+    shm_size: '256m'
 
 volumes:
   grafana_data: {}
