@@ -16,47 +16,16 @@ spec:
         app: influxdb
     spec:
       containers:
-        - env:
-            - name: GF_INSTALL_PLUGINS
-              valueFrom:
-                configMapKeyRef:
-                  key: GF_INSTALL_PLUGINS
-                  name: configuration-env
-            - name: GF_SECURITY_ADMIN_PASSWORD
-              valueFrom:
-                configMapKeyRef:
-                  key: GF_SECURITY_ADMIN_PASSWORD
-                  name: configuration-env
-            - name: GF_SECURITY_ADMIN_USER
-              valueFrom:
-                configMapKeyRef:
-                  key: GF_SECURITY_ADMIN_USER
-                  name: configuration-env
-            - name: INFLUXDB_ADMIN_PASSWORD
-              valueFrom:
-                configMapKeyRef:
-                  key: INFLUXDB_ADMIN_PASSWORD
-                  name: configuration-env
-            - name: INFLUXDB_ADMIN_USER
-              valueFrom:
-                configMapKeyRef:
-                  key: INFLUXDB_ADMIN_USER
-                  name: configuration-env
-            - name: INFLUXDB_DB
-              valueFrom:
-                configMapKeyRef:
-                  key: INFLUXDB_DB
-                  name: configuration-env
-          image: influxdb:1.8-alpine
-          name: influxdb
-          ports:
-            - containerPort: 8086
-          resources: {}
-          volumeMounts:
-            - mountPath: /imports
-              name: influxdb-claim0
-            - mountPath: /var/lib/influxdb
-              name: influxdb-data
+          - name: influxdb
+            image: influxdb:2.4
+            ports:
+              - containerPort: 8086
+            resources: {}
+            volumeMounts:
+              - mountPath: /imports
+                name: influxdb-claim0
+              - mountPath: /var/lib/influxdb
+                name: influxdb-data
       restartPolicy: Always
       volumes:
         - name: influxdb-claim0
