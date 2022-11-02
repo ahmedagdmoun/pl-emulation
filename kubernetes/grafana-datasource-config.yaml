@@ -10,11 +10,36 @@ data:
         "datasources": [
             {
                "access":"proxy",
-                "editable": true,
+                "editable": "true",
                 "name": "prometheus",
                 "orgId": 1,
                 "type": "prometheus",
                 "url": "http://prometheus-service.monitoring.svc:8080",
+                "version": 1
+            }
+        ]
+    }
+  influxdb.yaml: |-
+    {
+        "apiVersion": 1,
+        "datasources": [
+            {
+                "access":"proxy",
+                "editable": "true",
+                "name": "influxdb",
+                "type": "influxdb",
+                "url": "http://localhost:8086",
+                "secureJsonData":
+                {
+                  "token": "Sps-I98Prr8oxmZy0dgEUxf8Dihq9FbMhB7tZOC1Zv2-WRFsNkSHbDIgdcQMGaQzKbifLRR_UJ88E3VyeICdKw=="
+                }, 
+                "jsonData":
+                {
+                  "version": "Flux",
+                  "organization": "demo",
+                  "defaultBucket": "demo",
+                  "tlsSkipVerify": "true"
+                },
                 "version": 1
             }
         ]
