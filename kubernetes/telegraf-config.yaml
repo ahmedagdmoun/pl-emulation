@@ -5,12 +5,11 @@ metadata:
   name: telegraf-config
 data:
   telegraf.conf: |+
-    [[outputs.influxdb]]
-      urls = ["http://influxdb:8086"]
-      database = "influx"
-      timeout = "5s"
-      username = "admin"
-      password = "admin"
+    [[outputs.influxdb_v2]]
+      urls = ["http://localhost:8086"]
+      token = "Sps-I98Prr8oxmZy0dgEUxf8Dihq9FbMhB7tZOC1Zv2-WRFsNkSHbDIgdcQMGaQzKbifLRR_UJ88E3VyeICdKw=="
+      organization = "demo"
+      bucket = "demo"
     # Statsd Server
     [[inputs.statsd]]
       max_tcp_connections = 250
@@ -39,6 +38,13 @@ data:
     [[inputs.swap]]
     [[inputs.system]]
     [[inputs.prometheus]]
-      urls = ["http://localhost:9090/metrics"]
+      urls = ["http://localhost:9100/metrics"]
     [[inputs.kubernetes]]
       url = "http://1.1.1.1:10255"
+    [[inputs.http_listener_v2]]
+      ## Address and port to host HTTP listener on
+      service_address = ":1234"
+      ## Path to listen to.
+      path = "/receive"
+      ## Data format to consume.
+      data_format = "prometheusremotewrite"
